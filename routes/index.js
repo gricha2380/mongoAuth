@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
 
+// logout
+router.get('/logout', (req,res, next)=> {
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        return next(err)
+      } else {
+        return res.redirect('/')
+      }
+    })
+  }
+})
+
 // login page
 router.get('/login',(req, res, next)=>{
   return res.render('login', {title: 'Log In'})

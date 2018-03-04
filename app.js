@@ -15,8 +15,7 @@ app.use(session({
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.userId; // all views have access to locals
   next();
-
-})
+});
 
 // mongodb connection
 mongoose.connect('mongodb://localhost:27017/bookworm')

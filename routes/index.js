@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
+const mid = require('../middleware');
 
 // logout
 router.get('/logout', (req,res, next)=> {
@@ -16,7 +17,7 @@ router.get('/logout', (req,res, next)=> {
 })
 
 // login page
-router.get('/login',(req, res, next)=>{
+router.get('/login', mid.loggedOut, (req, res, next)=>{
   return res.render('login', {title: 'Log In'})
 })
 
@@ -40,7 +41,7 @@ router.post('/login', (req, res, next)=> {
 })
 
 // registration page
-router.get('/register', (req, res, next) => {
+router.get('/register', mid.loggedOut, (req, res, next) => {
   return res.render('register', { title:'Sign Up!'});
 });
 
@@ -77,12 +78,13 @@ router.post('/register', (req, res, next) => {
 });
 
 // GET /profile
-router.get('/profile', (req, res, next)=>{
-  if (!req.session.userId) {
-    let err = new Error("You are not authorized to view this page")
-    err.status = 403;
-    return next(err);
-  }
+router.get('/profile', mid.requiresLogin, (req, res, next)=>{
+  //  replaced with mid.requiresLogin
+  //   if (!req.session.userId) {
+  //   let err = new Error("You are not authorized to view this page")
+  //   err.status = 403;
+  //   return next(err);
+  // }
   User.findById(req.session.userId)
     .exec((error, user)=>{
       if (error) {

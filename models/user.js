@@ -25,7 +25,7 @@ let userSchema = new mongoose.Schema({
 })
 
 // authenticate input against database documents
-userSchema.statics.authenticate = (email, password, callback)=> {
+userSchema.statics.authenticate = (email, password, callback) => {
     User.findOne({ email: email})
     .exec((error, user) => {
         if (error) {
@@ -46,9 +46,9 @@ userSchema.statics.authenticate = (email, password, callback)=> {
 }
 
 // has password before saving to database
-userSchema.pre('save', function(next){
+userSchema.pre('save', (next) => {
     let user = this;
-    bcrypt.hash(user.password, 10, function(err,hash){
+    bcrypt.hash(user.password, 10, (err,hash) => {
         if (err) {
             return next(err);
         }

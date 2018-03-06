@@ -14,9 +14,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use(session({
   secret: 'fear is the mindkiller',
   resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({mongooseConnection: db})
-  // storing session in database. Scalable option
+  saveUninitialized: false
 }));
 
 // make user ID avaible in templates
